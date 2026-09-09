@@ -1,7 +1,50 @@
 ---
-title: "Florida Census and Race"
+title: "Racial Demographics in Sarasota County Over Time"
+execute:
+  echo: false
+  message: false
+  warning: false
 ---
 
-This is a Quarto website.
+This animated map explores changes in the spatial distribution of the Black population across Sarasota County, Florida across the 2000, 2010, and 2020 Decennial Censuses.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Throughout all three decades, the Black population has remained heavily concentrated in North Sarasota (Newtown), while the vast majority of other tracts across the county have remained under 2% Black.
+
+```{r}
+library(tidyverse)
+library(sf)
+library(gganimate)
+
+# Load the multi-year tract data and calculate percentage of Black residents
+sarasota <- readRDS("data/sarasota_race.rds") |>
+  mutate(
+    pct_black = 100 * black / total,
+    year = as.integer(year)
+  )
+
+# Build the animated map cycling through census years
+anim <- ggplot(sarasota) +
+  geom_sf(aes(fill = pct_black), color = "white", linewidth = 0.2) +
+  scale_fill_viridis_c(
+    option = "plasma",
+    labels = scales::label_percent(scale = 1),
+    name = "% Black",
+    limits = c(0, 100)
+  ) +
+  theme_void() +
+  labs(
+    title = "Sarasota County: Black Population by Census Tract",
+    subtitle = "Decennial Census Year: {current_frame}",
+    caption = "Source: U.S. Census Bureau (2000, 2010, 2020)"
+  ) +
+  transition_manual(year)
+
+animate(
+  anim,
+  fps = 1,
+  width = 600,
+  height = 500,
+  units = "px",
+  renderer = gifski_renderer()
+)
+```
