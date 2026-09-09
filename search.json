@@ -9,8 +9,8 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Florida Census and Race",
+    "title": "Racial Demographics in Sarasota County",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "This map explores the spatial distribution of the Black population across Sarasota County, Florida using 2020 Decennial Census data.\nWhile the median census tract in Sarasota County has a Black population of only about 1.2%, North Sarasota (Census Tract 3, home to the historic Newtown community) is over 74% Black. This reveals striking geographic clustering within the county."
   }
 ]
